@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    
+    <!-- Gazebo-specific visual properties for each link -->
+    <!-- Using file:// URIs for Gazebo Sim (Ignition) compatibility -->
+    <xacro:property name="meshes_path" value="package://handy_description/meshes" />
+    
+    <gazebo reference="base_link">
+        <visual>
+            <geometry>
+                <mesh>
+                    <uri>model://handy_description/meshes/base_link.STL</uri>
+                </mesh>
+            </geometry>
+            <material>
+                <ambient>0.792 0.820 0.933 1</ambient>
+                <diffuse>0.792 0.820 0.933 1</diffuse>
+            </material>
+        </visual>
+    </gazebo>
+
+    <gazebo reference="link1">
+        <visual>
+            <geometry>
+                <mesh>
+                    <uri>model://handy_description/meshes/link1.STL</uri>
+                </mesh>
+            </geometry>
+            <material>
+                <ambient>0.792 0.820 0.933 1</ambient>
+                <diffuse>0.792 0.820 0.933 1</diffuse>
+            </material>
+        </visual>
+    </gazebo>
+
+    <gazebo reference="link2">
+        <visual>
+            <geometry>
+                <mesh>
+                    <uri>model://handy_description/meshes/link2.STL</uri>
+                </mesh>
+            </geometry>
+            <material>
+                <ambient>0.792 0.820 0.933 1</ambient>
+                <diffuse>0.792 0.820 0.933 1</diffuse>
+            </material>
+        </visual>
+    </gazebo>
+
+    <gazebo reference="link3">
+        <visual>
+            <geometry>
+                <mesh>
+                    <uri>model://handy_description/meshes/link3.STL</uri>
+                </mesh>
+            </geometry>
+            <material>
+                <ambient>0.792 0.820 0.933 1</ambient>
+                <diffuse>0.792 0.820 0.933 1</diffuse>
+            </material>
+        </visual>
+    </gazebo>
+
+    <gazebo reference="link4">
+        <visual>
+            <geometry>
+                <mesh>
+                    <uri>model://handy_description/meshes/link4.STL</uri>
+                </mesh>
+            </geometry>
+            <material>
+                <ambient>0.792 0.820 0.933 1</ambient>
+                <diffuse>0.792 0.820 0.933 1</diffuse>
+            </material>
+        </visual>
+    </gazebo>
+
+    <gazebo reference="link5">
+        <visual>
+            <geometry>
+                <mesh>
+                    <uri>model://handy_description/meshes/link5.STL</uri>
+                </mesh>
+            </geometry>
+            <material>
+                <ambient>0.792 0.820 0.933 1</ambient>
+                <diffuse>0.792 0.820 0.933 1</diffuse>
+            </material>
+        </visual>
+    </gazebo>
+
+    <gazebo reference="link6">
+        <visual>
+            <geometry>
+                <mesh>
+                    <uri>model://handy_description/meshes/link6.STL</uri>
+                </mesh>
+            </geometry>
+            <material>
+                <ambient>0.792 0.820 0.933 1</ambient>
+                <diffuse>0.792 0.820 0.933 1</diffuse>
+            </material>
+        </visual>
+    </gazebo>
+
+    <gazebo reference="finger1">
+        <visual>
+            <geometry>
+                <mesh>
+                    <uri>model://handy_description/meshes/finger1.STL</uri>
+                </mesh>
+            </geometry>
+            <material>
+                <ambient>0.792 0.820 0.933 1</ambient>
+                <diffuse>0.792 0.820 0.933 1</diffuse>
+            </material>
+        </visual>
+    </gazebo>
+
+    <gazebo reference="finger2">
+        <visual>
+            <geometry>
+                <mesh>
+                    <uri>model://handy_description/meshes/finger2.STL</uri>
+                </mesh>
+            </geometry>
+            <material>
+                <ambient>0.792 0.820 0.933 1</ambient>
+                <diffuse>0.792 0.820 0.933 1</diffuse>
+            </material>
+        </visual>
+    </gazebo>
+
+</robot>

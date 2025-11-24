@@ -1,0 +1,21 @@
+# Ignore build artifacts and installs for ROS / colcon
+build/
+install/
+log/
+
+# Common Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+.venv/
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+
+# Ignore user local setups created by colcon
+local_setup.*

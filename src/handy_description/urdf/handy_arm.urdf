@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by
+Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot name="handy">
+  <link name="world"/>  
+  <joint name="world_to_base_link" type="fixed">  
+    <parent link="world"/>  
+    <child link="base_link"/>  
+  </joint>
+  <link name="base_link">
+    <inertial>
+      <origin xyz="-0.201494797464755 -0.33270613657075 0.122153346997545" rpy="0 0 0" />
+      <mass value="1.02993183799962" />
+      <inertia ixx="0.00388180151314568" ixy="0.000146477227467121" ixz="-3.08858068252909E-05" iyy="0.00391121441782537" iyz="0.000182968195139445" izz="0.00469941089703615" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find handy_description)/meshes/base_link.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find handy_description)/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="link1">
+    <inertial>
+      <origin xyz="-0.0666786874373314 -0.0921973017688339 0.000264678789029818" rpy="0 0 0" />
+      <mass value="1.64132539317416" />
+      <inertia ixx="0.00556535118301659" ixy="7.50079938158334E-05" ixz="2.24280949133407E-06" iyy="0.0114726745142463" iyz="-3.69085556569161E-05" izz="0.0119142260742093" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find handy_description)/meshes/link1.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find handy_description)/meshes/link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="joint1" type="continuous">
+    <origin xyz="-0.216688742328293 -0.0653750258144941 -0.076488940569971" rpy="1.35139351605387 -0.005661808569178 -0.0253845459184578" />
+    <parent link="base_link" />
+    <child link="link1" />
+    <axis xyz="0 1 0" />
+  </joint>
+  <link name="link2">
+    <inertial>
+      <origin xyz="0.0645803236808763 0.134667104220208 0.000383946319312364" rpy="0 0 0" />
+      <mass value="1.21151502652652" />
+      <inertia ixx="0.0193047378103137" ixy="4.29936090457579E-05" ixz="9.67797968209189E-07" iyy="0.00234396250666855" iyz="-3.24531752611424E-05" izz="0.01932250860384" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find handy_description)/meshes/link2.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find handy_description)/meshes/link2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="joint2" type="continuous">
+    <origin xyz="0.0435803772319436 -0.0732024481510685 0" rpy="-0.145305947427022 0 0" />
+    <parent link="link1" />
+    <child link="link2" />
+    <axis xyz="1 0 0" />
+  </joint>
+  <link name="link3">
+    <inertial>
+      <origin xyz="-3.87366894838426E-07 -0.13490249576615 -0.0632344196231825" rpy="0 0 0" />
+      <mass value="1.49807122606035" />
+      <inertia ixx="0.0251458807049096" ixy="-7.28940033545766E-09" ixz="1.25447986991812E-08" iyy="0.00365599160370087" iyz="0.000442302513898746" izz="0.0245472015680104" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find handy_description)/meshes/link3.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find handy_description)/meshes/link3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="joint3" type="continuous">
+    <origin xyz="0 0.29155 0.000575582702540212" rpy="-1.5707963267949 -1.42559453038284 -1.5707963267949" />
+    <parent link="link2" />
+    <child link="link3" />
+    <axis xyz="0 0 1" />
+  </joint>
+  <link name="link4">
+    <inertial>
+      <origin xyz="-8.16098910672025E-10 0.0948982331730346 -0.00464804995374629" rpy="0 0 0" />
+      <mass value="0.77283222645942" />
+      <inertia ixx="0.00331238472122077" ixy="-1.89118668225279E-09" ixz="-2.54703633791736E-09" iyy="0.0017818145052466" iyz="5.48858845251521E-05" izz="0.0028907330169525" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find handy_description)/meshes/link4.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find handy_description)/meshes/link4.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="joint4" type="continuous">
+    <origin xyz="0 -0.283 0.00601150526788313" rpy="1.5707963267949 0 2.3178872736497" />
+    <parent link="link3" />
+    <child link="link4" />
+    <axis xyz="0 1 0" />
+  </joint>
+  <link name="link5">
+    <inertial>
+      <origin xyz="5.92350640205019E-08 0.0315882824222283 -0.0047896223724456" rpy="0 0 0" />
+      <mass value="0.653920203225296" />
+      <inertia ixx="0.00226060399731019" ixy="-2.74742085885123E-09" ixz="-1.15453855275351E-09" iyy="0.00160541270553799" iyz="2.85164716006729E-05" izz="0.00183368099339665" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find handy_description)/meshes/link5.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find handy_description)/meshes/link5.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="joint5" type="continuous">
+    <origin xyz="0 0.137202612217877 -0.110223584216283" rpy="-1.5707963267949 0 2.79819861575838" />
+    <parent link="link4" />
+    <child link="link5" />
+    <axis xyz="0 1 0" />
+  </joint>
+  <link name="link6">
+    <inertial>
+      <origin xyz="0 0.0277024142683489 -0.00209008789566878" rpy="0 0 0" />
+      <mass value="0.387345492348745" />
+      <inertia ixx="0.000597522443691493" ixy="-1.15196480826585E-19" ixz="1.35525271560688E-20" iyy="0.000590870997288825" iyz="-8.90367506781489E-06" izz="0.000599211408259204" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find handy_description)/meshes/link6.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find handy_description)/meshes/link6.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="joint6" type="continuous">
+    <origin xyz="0 0.0575709105014207 -0.0937953465795269" rpy="-1.5707963267949 0 -0.705269140023617" />
+    <parent link="link5" />
+    <child link="link6" />
+    <axis xyz="0 1 0" />
+  </joint>
+  <link name="finger1">
+    <inertial>
+      <origin xyz="-2.73760507984999E-07 2.57947961879168E-08 0.0125498065128169" rpy="0 0 0" />
+      <mass value="0.000814957536847206" />
+      <inertia ixx="9.83606443640383E-08" ixy="-2.85087878131236E-13" ixz="5.27813727055151E-13" iyy="9.88499044910405E-08" iyz="-1.34778748220532E-13" izz="3.29439911699083E-09" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find handy_description)/meshes/finger1.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find handy_description)/meshes/finger1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="joint7" type="fixed">
+    <origin xyz="0.022 0.080205 0" rpy="1.5708 0 3.0326" />
+    <parent link="link6" />
+    <child link="finger1" />
+    <axis xyz="0 1 0" />
+  </joint>
+  <link name="finger2">
+    <inertial>
+      <origin xyz="-2.62688068908279E-07 3.11801040542292E-09 0.012549849235272" rpy="0 0 0" />
+      <mass value="0.000814964423973572" />
+      <inertia ixx="9.83610854509935E-08" ixy="-2.55586256300238E-13" ixz="4.23355754987495E-13" iyy="9.88503469937636E-08" iyz="-3.31712098605089E-14" izz="3.29440080136995E-09" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find handy_description)/meshes/finger2.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find handy_description)/meshes/finger2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="joint8" type="fixed">
+    <origin xyz="-0.022 0.080205 0" rpy="1.5708 0 3.011" />
+    <parent link="link6" />
+    <child link="finger2" />
+    <axis xyz="0 1 0" />
+  </joint>
+</robot>
