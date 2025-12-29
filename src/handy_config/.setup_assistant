@@ -1,0 +1,25 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: handy_description
+    relative_path: urdf/handy_description.urdf
+  srdf:
+    relative_path: config/handy_description.srdf
+  package_settings:
+    author_name: rishik
+    author_email: rishikkodityala@gmail.com
+    generated_timestamp: 1766936643
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - velocity
+  modified_urdf:
+    xacros:
+      - control_xacro
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - velocity

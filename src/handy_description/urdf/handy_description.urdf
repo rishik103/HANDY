@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="handy_description">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="-2.17400550704263E-05 0.0804155851410019 0.0167771821086932"
+        rpy="0 0 0" />
+      <mass
+        value="5.20579669773012" />
+      <inertia
+        ixx="0.0745298638298292"
+        ixy="2.35902206932597E-07"
+        ixz="-1.71772773874938E-05"
+        iyy="0.121254442926251"
+        iyz="-0.000702969799281514"
+        izz="0.0908582339067126" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://handy_description/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.698039215686274 0.698039215686274 0.698039215686274 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://handy_description/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="Link1">
+    <inertial>
+      <origin
+        xyz="-0.0505963772912258 0.0807845229259251 0.000239884360427188"
+        rpy="0 0 0" />
+      <mass
+        value="1.84719084699337" />
+      <inertia
+        ixx="0.00589331492713367"
+        ixy="-0.000434913621296606"
+        ixz="9.41395649699435E-06"
+        iyy="0.0165212871966622"
+        iyz="-3.68582776875864E-05"
+        izz="0.0170282435103473" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://handy_description/meshes/Link1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.698039215686274 0.698039215686274 0.698039215686274 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://handy_description/meshes/Link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint1"
+    type="continuous">
+    <origin
+      xyz="0 0 0.16499999999999"
+      rpy="1.5707963267949 0 -1.78820384774425" />
+    <parent
+      link="base_link" />
+    <child
+      link="Link1" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="Link2">
+    <inertial>
+      <origin
+        xyz="0.0872810786514221 0.171831443377257 0.000442592450654812"
+        rpy="0 0 0" />
+      <mass
+        value="1.79378971577605" />
+      <inertia
+        ixx="0.0286366097356286"
+        ixy="0.00434268252501847"
+        ixz="5.82082670946274E-06"
+        iyy="0.00630835073077821"
+        iyz="-4.22812908192919E-05"
+        izz="0.031806258387788" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://handy_description/meshes/Link2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.698039215686274 0.698039215686274 0.698039215686274 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://handy_description/meshes/Link2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint2"
+    type="continuous">
+    <origin
+      xyz="0 0.0980000000000102 0"
+      rpy="0.0331729718675605 0 0" />
+    <parent
+      link="Link1" />
+    <child
+      link="Link2" />
+    <axis
+      xyz="1 0 0" />
+  </joint>
+  <link
+    name="Link3">
+    <inertial>
+      <origin
+        xyz="-3.17005538200688E-05 -0.145907433466096 -0.0124227488510887"
+        rpy="0 0 0" />
+      <mass
+        value="1.67831155597823" />
+      <inertia
+        ixx="0.0287779073274115"
+        ixy="1.21179691208291E-07"
+        ixz="1.28013844381651E-08"
+        iyy="0.00494996442330398"
+        iyz="0.00209715919164777"
+        izz="0.0272241658004667" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://handy_description/meshes/Link3.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.698039215686274 0.698039215686274 0.698039215686274 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://handy_description/meshes/Link3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint3"
+    type="continuous">
+    <origin
+      xyz="0 0.29155 0.000575582702538871"
+      rpy="1.5707963267949 -1.32183280290932 1.5707963267949" />
+    <parent
+      link="Link2" />
+    <child
+      link="Link3" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="Link4">
+    <inertial>
+      <origin
+        xyz="9.14813616526011E-09 0.0807632232499863 -0.00464807251136501"
+        rpy="0 0 0" />
+      <mass
+        value="0.788294501444391" />
+      <inertia
+        ixx="0.00337863003704717"
+        ixy="-1.49147045606338E-09"
+        ixz="-1.97176665782316E-09"
+        iyy="0.00181746118095437"
+        iyz="5.59839347246388E-05"
+        izz="0.00294855360229455" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://handy_description/meshes/Link4.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.698039215686274 0.698039215686274 0.698039215686274 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://handy_description/meshes/Link4.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint4"
+    type="continuous">
+    <origin
+      xyz="0 -0.283 0.0937268862500288"
+      rpy="1.5707963267949 0 -2.80898508991109" />
+    <parent
+      link="Link3" />
+    <child
+      link="Link4" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="Link5">
+    <inertial>
+      <origin
+        xyz="1.10484036669467E-07 0.0661798360157611 -0.00478961604459155"
+        rpy="0 0 0" />
+      <mass
+        value="0.666997164681847" />
+      <inertia
+        ixx="0.00230581229513047"
+        ixy="-3.03911661041242E-09"
+        ixz="-1.3687319132369E-09"
+        iyy="0.00163752263816699"
+        iyz="2.90871514518967E-05"
+        izz="0.00187035546141408" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://handy_description/meshes/Link5.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.698039215686274 0.698039215686274 0.698039215686274 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://handy_description/meshes/Link5.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint5"
+    type="continuous">
+    <origin
+      xyz="0 0.123067608467674 -0.0836321372682999"
+      rpy="-1.5707963267949 0 -3.07906203524659" />
+    <parent
+      link="Link4" />
+    <child
+      link="Link5" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="Link6">
+    <inertial>
+      <origin
+        xyz="1.83414272658666E-08 0.035546421300757 -0.00209003383815964"
+        rpy="0 0 0" />
+      <mass
+        value="0.395089923264463" />
+      <inertia
+        ixx="0.00060937486897689"
+        ixy="-3.32216647271869E-10"
+        ixz="-5.97155257723745E-10"
+        iyy="0.000602680820617663"
+        iyz="-9.08085988624423E-06"
+        izz="0.000611095056035486" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://handy_description/meshes/Link6.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.698039215686274 0.698039215686274 0.698039215686274 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://handy_description/meshes/Link6.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint6"
+    type="continuous">
+    <origin
+      xyz="0 0.0921623574494037 -0.0859488892195215"
+      rpy="-1.5707963267949 0 2.60725709980123" />
+    <parent
+      link="Link5" />
+    <child
+      link="Link6" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+</robot>
