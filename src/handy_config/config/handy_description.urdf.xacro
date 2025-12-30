@@ -1,14 +1,21 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="handy_description">
-    <xacro:arg name="initial_positions_file" default="initial_positions.yaml" />
 
-    <!-- Import handy_description urdf file -->
-    <xacro:include filename="$(find handy_description)/urdf/handy_description.urdf" />
+  <!-- Arguments -->
+  <xacro:arg name="initial_positions_file" default="$(find handy_config)/config/initial_positions.yaml"/>
+  <xacro:arg name="use_sim" default="false"/>
 
-    <!-- Import control_xacro -->
-    <xacro:include filename="handy_description.ros2_control.xacro" />
+  <!-- Store arg as property for use in macro -->
+  <xacro:property name="use_sim_prop" value="$(arg use_sim)"/>
 
+  <xacro:include filename="$(find handy_description)/urdf/handy_description.urdf"/>
+  <xacro:include filename="$(find handy_config)/config/handy_description.gazebo.xacro"/>
+  <xacro:include filename="$(find handy_config)/config/handy_description.ros2_control.xacro"/>
 
-    <xacro:handy_description_ros2_control name="FakeSystem" initial_positions_file="$(arg initial_positions_file)"/>
+  <!-- Call macro with use_sim property -->
+  <xacro:handy_description_ros2_control
+    name="handy_ros2_control"
+    use_sim="${use_sim_prop}"
+    initial_positions_file="$(arg initial_positions_file)"/>
 
 </robot>

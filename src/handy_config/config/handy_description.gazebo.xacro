@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<!-- filepath: /home/rishik/handy/src/handy_description/urdf/handy_description.gazebo.xacro -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Gazebo Colors -->
+  <gazebo reference="base_link">
+    <visual>
+      <material>
+        <ambient>0.79 0.82 0.93 1</ambient>
+        <diffuse>0.79 0.82 0.93 1</diffuse>
+        <specular>0.1 0.1 0.1 1</specular>
+      </material>
+    </visual>
+  </gazebo>
+
+  <gazebo reference="link1">
+    <visual>
+      <material>
+        <ambient>0.79 0.82 0.93 1</ambient>
+        <diffuse>0.79 0.82 0.93 1</diffuse>
+        <specular>0.1 0.1 0.1 1</specular>
+      </material>
+    </visual>
+  </gazebo>
+
+  <gazebo reference="link2">
+    <visual>
+      <material>
+        <ambient>0.79 0.82 0.93 1</ambient>
+        <diffuse>0.79 0.82 0.93 1</diffuse>
+        <specular>0.1 0.1 0.1 1</specular>
+      </material>
+    </visual>
+  </gazebo>
+
+  <gazebo reference="link3">
+    <visual>
+      <material>
+        <ambient>0.79 0.82 0.93 1</ambient>
+        <diffuse>0.79 0.82 0.93 1</diffuse>
+        <specular>0.1 0.1 0.1 1</specular>
+      </material>
+    </visual>
+  </gazebo>
+
+  <gazebo reference="link4">
+    <visual>
+      <material>
+        <ambient>0.79 0.82 0.93 1</ambient>
+        <diffuse>0.79 0.82 0.93 1</diffuse>
+        <specular>0.1 0.1 0.1 1</specular>
+      </material>
+    </visual>
+  </gazebo>
+
+  <gazebo reference="link5">
+    <visual>
+      <material>
+        <ambient>0.79 0.82 0.93 1</ambient>
+        <diffuse>0.79 0.82 0.93 1</diffuse>
+        <specular>0.1 0.1 0.1 1</specular>
+      </material>
+    </visual>
+  </gazebo>
+
+  <gazebo reference="link6">
+    <visual>
+      <material>
+        <ambient>0.79 0.82 0.93 1</ambient>
+        <diffuse>0.79 0.82 0.93 1</diffuse>
+        <specular>0.1 0.1 0.1 1</specular>
+      </material>
+    </visual>
+  </gazebo>
+
+  <gazebo reference="finger1">
+    <visual>
+      <material>
+        <ambient>0.3 0.3 0.3 1</ambient>
+        <diffuse>0.3 0.3 0.3 1</diffuse>
+        <specular>0.1 0.1 0.1 1</specular>
+      </material>
+    </visual>
+  </gazebo>
+
+  <gazebo reference="finger2">
+    <visual>
+      <material>
+        <ambient>0.3 0.3 0.3 1</ambient>
+        <diffuse>0.3 0.3 0.3 1</diffuse>
+        <specular>0.1 0.1 0.1 1</specular>
+      </material>
+    </visual>
+  </gazebo>
+
+  <!-- Gazebo ros2_control plugin for Harmonic -->
+  <gazebo>
+    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+      <parameters>$(find handy_config)/config/ros2_controllers.yaml</parameters>
+      <ros>
+        <remapping>/controller_manager:=/controller_manager</remapping>
+      </ros>
+    </plugin>
+  </gazebo>
+
+</robot>

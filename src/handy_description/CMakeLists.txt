@@ -12,7 +12,7 @@ install(
 
 # Install mesh files
 install(
-  DIRECTORY meshes
+  DIRECTORY meshes worlds 
   DESTINATION share/${PROJECT_NAME}
 )
 
