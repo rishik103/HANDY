@@ -6,6 +6,7 @@ from launch.conditions import IfCondition, UnlessCondition
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 from moveit_configs_utils import MoveItConfigsBuilder
+from launch_param_builder import ParameterBuilder
 from launch_ros.parameter_descriptions import ParameterValue
 import os, pprint
 
@@ -120,20 +121,38 @@ def generate_launch_description():
     get_package_share_directory("handy_config"),
     "config",
     "servo.yaml"
-)
+    )
+
+    servo_params = {
+        "moveit_servo": ParameterBuilder("moveit_servo").yaml(servo_yaml).to_dict()
+    }
+    print(servo_params)
+
+    servo_required_params = {
+        "moveit_servo": {
+            "move_group_name": "arm"
+        }
+    }
+
+    acceleration_filter_update_period = {"update_period": 0.01}
 
     servo_node = Node(
         package="moveit_servo",
         executable="servo_node",
-        name="servo_node",
+        name="moveit_servo",
         output="screen",
-        parameters=[servo_yaml,
+        parameters=[servo_params,
+                    servo_required_params,
+                    acceleration_filter_update_period,
                     moveit_config.robot_description,
                     moveit_config.robot_description_semantic,
-                    moveit_config.robot_description_kinematics
+                    moveit_config.robot_description_kinematics,
+
         ],
         arguments=["--ros-args", "--log-level", "info"],
     )
+
+
 
 
 
@@ -150,6 +169,6 @@ def generate_launch_description():
             move_group_node,
             rviz_node,
             mongodb_server_node,
-            # servo_node
+            servo_node
         ]
     )

@@ -1,0 +1,31 @@
+servo_node:
+  ros__parameters:
+    publish_period: 0.01
+    move_group_name: arm
+    active_subgroup: arm
+
+    cartesian_command_in_topic: ~/delta_twist_cmds
+    command_in_type: speed_units
+
+    scale:
+      linear: 0.05
+      rotational: 0.2
+      joint: 0.5
+
+    incoming_command_timeout: 0.1
+    apply_twist_commands_about_ee_frame: true
+
+    command_out_topic: /arm_controller/joint_trajectory
+    publish_joint_positions: true
+    publish_joint_velocities: true
+    publish_joint_accelerations: false
+
+    monitored_planning_scene_topic: /planning_scene
+    joint_topic: /joint_states
+
+    check_collisions: true
+    lower_singularity_threshold: 17.0
+    hard_stop_singularity_threshold: 30.0
+
+    command_frame: base_link
+    ee_frame_name: Link6
