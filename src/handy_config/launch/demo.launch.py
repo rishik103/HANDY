@@ -116,6 +116,26 @@ def generate_launch_description():
     )
 
 
+    servo_yaml = os.path.join(
+    get_package_share_directory("handy_config"),
+    "config",
+    "servo.yaml"
+)
+
+    servo_node = Node(
+        package="moveit_servo",
+        executable="servo_node",
+        name="servo_node",
+        output="screen",
+        parameters=[servo_yaml,
+                    moveit_config.robot_description,
+                    moveit_config.robot_description_semantic,
+                    moveit_config.robot_description_kinematics
+        ],
+        arguments=["--ros-args", "--log-level", "info"],
+    )
+
+
 
     return LaunchDescription(
         [
@@ -130,5 +150,6 @@ def generate_launch_description():
             move_group_node,
             rviz_node,
             mongodb_server_node,
+            # servo_node
         ]
     )
