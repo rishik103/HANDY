@@ -1,5 +1,6 @@
 #include <rclcpp/rclcpp.hpp>
 #include <geometry_msgs/msg/twist_stamped.hpp>
+#include <moveit_msgs/srv/servo_command_type.hpp>
 #include <termios.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -27,12 +28,19 @@ public:
 
     // ---------------- Publisher ----------------
     pub_ = create_publisher<geometry_msgs::msg::TwistStamped>(
-      "/servo_node/delta_twist_cmds",
-      rclcpp::QoS(10).best_effort());
+      "/moveit_servo/delta_twist_cmds",
+      rclcpp::QoS(10).reliable());
+
+    // ---------------- Service Client ----------------
+    switch_cmd_client_ = create_client<moveit_msgs::srv::ServoCommandType>(
+      "/moveit_servo/switch_command_type");
+    
+    // Switch to TWIST mode on startup
+    enableTwistMode();
 
     // ---------------- Timer ----------------
     timer_ = create_wall_timer(
-      std::chrono::milliseconds(10),   // 100 Hz
+      std::chrono::milliseconds(100),   // 100 Hz
       std::bind(&KeyboardTwistTeleop::publishTwist, this));
 
     // ---------------- Keyboard ----------------
@@ -109,27 +117,15 @@ private:
   {
     auto now_time = std::chrono::steady_clock::now();
     
-    // Deadman key (SPACE) - refresh the deadman timestamp
-    if (c == ' ')
-    {
-      std::lock_guard<std::mutex> lock(twist_mutex_);
-      last_deadman_time_ = now_time;
-      deadman_active_ = true;
-      return;
-    }
-
+    // Debug: print the key being pressed
+    RCLCPP_INFO(get_logger(), "Key pressed: '%c' (ASCII: %d)", c, static_cast<int>(c));
+    
     std::lock_guard<std::mutex> lock(twist_mutex_);
     
-    // Check if deadman is still active (within timeout)
-    if (!deadman_active_ || 
-        (now_time - last_deadman_time_) > deadman_timeout_)
-    {
-      deadman_active_ = false;
-      return;
-    }
-
-    // Update the deadman time on motion keys too (as long as space was recently pressed)
-    last_deadman_time_ = now_time;
+    // Reset twist each keypress, then set the active direction
+    twist_ = geometry_msgs::msg::Twist();
+    last_key_time_ = now_time;
+    key_active_ = true;
 
     // Set velocity based on key
     switch (c)
@@ -144,11 +140,19 @@ private:
       case 'q': case 'Q': twist_.angular.z =  ang_vel_; break;
       case 'e': case 'E': twist_.angular.z = -ang_vel_; break;
       
+      case ' ':  // SPACE = immediate stop
+        twist_ = geometry_msgs::msg::Twist();
+        key_active_ = false;
+        RCLCPP_INFO(get_logger(), "STOP");
+        break;
+      
       // ESC or Ctrl+C to stop
       case 27: case 3:
         running_ = false;
         break;
-      default: break;
+      default: 
+        key_active_ = false;
+        break;
     }
   }
 
@@ -164,19 +168,45 @@ private:
       std::lock_guard<std::mutex> lock(twist_mutex_);
       
       auto now_time = std::chrono::steady_clock::now();
-      bool deadman_valid = deadman_active_ && 
-                           (now_time - last_deadman_time_) <= deadman_timeout_;
+      bool key_valid = key_active_ && 
+                       (now_time - last_key_time_) <= deadman_timeout_;
       
-      if (deadman_valid) {
+      if (key_valid) {
         msg.twist = twist_;
+        RCLCPP_INFO(get_logger(), "Publishing twist: x=%.3f y=%.3f z=%.3f", 
+                    twist_.linear.x, twist_.linear.y, twist_.linear.z);
       } else {
         msg.twist = geometry_msgs::msg::Twist();
         twist_ = geometry_msgs::msg::Twist();  // Reset stored twist
-        deadman_active_ = false;
+        key_active_ = false;
       }
     }
 
     pub_->publish(msg);
+  }
+
+  // ---------------- Enable Servo TWIST Mode ----------------
+
+  void enableTwistMode()
+  {
+    RCLCPP_INFO(get_logger(), "Waiting for servo switch_command_type service...");
+    
+    if (!switch_cmd_client_->wait_for_service(std::chrono::seconds(5))) {
+      RCLCPP_ERROR(get_logger(), "Service not available! Is servo node running?");
+      return;
+    }
+
+    auto request = std::make_shared<moveit_msgs::srv::ServoCommandType::Request>();
+    request->command_type = 1;  // TWIST mode
+
+    auto future = switch_cmd_client_->async_send_request(request,
+      [this](rclcpp::Client<moveit_msgs::srv::ServoCommandType>::SharedFuture response) {
+        if (response.get()->success) {
+          RCLCPP_INFO(get_logger(), "Servo switched to TWIST mode successfully");
+        } else {
+          RCLCPP_ERROR(get_logger(), "Failed to switch servo to TWIST mode");
+        }
+      });
   }
 
   // ---------------- Terminal Control ----------------
@@ -199,12 +229,13 @@ private:
   // ---------------- Members ----------------
 
   rclcpp::Publisher<geometry_msgs::msg::TwistStamped>::SharedPtr pub_;
+  rclcpp::Client<moveit_msgs::srv::ServoCommandType>::SharedPtr switch_cmd_client_;
   rclcpp::TimerBase::SharedPtr timer_;
   std::thread keyboard_thread_;
 
   std::atomic<bool> running_{true};
-  bool deadman_active_{false};
-  std::chrono::steady_clock::time_point last_deadman_time_;
+  bool key_active_{false};
+  std::chrono::steady_clock::time_point last_key_time_;
   std::chrono::milliseconds deadman_timeout_;
 
   geometry_msgs::msg::Twist twist_;

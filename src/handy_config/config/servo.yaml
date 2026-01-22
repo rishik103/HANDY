@@ -262,7 +262,7 @@ servo:
 
   lower_singularity_threshold: {
     type: double,
-    default_value: 17.0,
+    default_value: 40.0,
     description: "Start decelerating when the condition number hits this (close to singularity)",
     validation: {
       gt<>: 0.0
@@ -271,7 +271,7 @@ servo:
 
   hard_stop_singularity_threshold: {
     type: double,
-    default_value: 30.0,
+    default_value: 100.0,
     description: "Stop when the condition number hits this",
     validation: {
       gt<>: 0.0,

@@ -49,7 +49,7 @@ def generate_launch_description():
         executable="rviz2",
         name="rviz2",
         output="log",
-        arguments=["-d", rviz_full_config],
+        arguments=["-d", rviz_full_config, "--ros-args", "--log-level", "warn"],
         # Use the full MoveIt config dict to avoid accidentally passing
         # tuple-like attributes (which can raise ParameterValue type errors).
         parameters=[moveit_config.to_dict()],
@@ -126,11 +126,23 @@ def generate_launch_description():
     servo_params = {
         "moveit_servo": ParameterBuilder("moveit_servo").yaml(servo_yaml).to_dict()
     }
-    print(servo_params)
+    # print(servo_params)
 
+    # Explicitly set servo parameters (ParameterBuilder may not extract values correctly)
     servo_required_params = {
         "moveit_servo": {
-            "move_group_name": "arm"
+            "move_group_name": "arm",
+            "command_out_topic": "/arm_controller/joint_trajectory",
+            "command_out_type": "trajectory_msgs/JointTrajectory",
+            "publish_joint_positions": True,
+            "publish_joint_velocities": True,
+            "publish_joint_accelerations": False,
+            "command_in_type": "speed_units",
+            "scale.linear": 0.05,
+            "scale.rotational": 0.2,
+            "scale.joint": 0.5,
+            "command_frame": "base_link",
+            "ee_frame_name": "Link6",
         }
     }
 
@@ -147,7 +159,6 @@ def generate_launch_description():
                     moveit_config.robot_description,
                     moveit_config.robot_description_semantic,
                     moveit_config.robot_description_kinematics,
-
         ],
         arguments=["--ros-args", "--log-level", "info"],
     )

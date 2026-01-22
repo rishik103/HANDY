@@ -14,8 +14,22 @@ find_package(tf2_ros REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 find_package(moveit_core REQUIRED)
 
-add_executable(Twist_command scripts/Twist_command.cpp)
-ament_target_dependencies(Twist_command 
+# add_executable(Twist_command scripts/Twist_command.cpp)
+# ament_target_dependencies(rclcpp 
+#   std_msgs 
+#   sensor_msgs 
+#   geometry_msgs 
+#   moveit_ros_move_group 
+#   moveit_kinematics 
+#   moveit_planners 
+#   moveit_servo
+#   tf2_ros
+#   tf2_geometry_msgs
+#   moveit_core
+# )
+
+add_executable(keyboard_twist_teleop scripts/keyboard_twist_teleop.cpp)
+ament_target_dependencies(keyboard_twist_teleop 
   rclcpp 
   std_msgs 
   sensor_msgs 
@@ -29,15 +43,13 @@ ament_target_dependencies(Twist_command
   moveit_core
 )
 
-add_executable(keyboard_twist_teleop scripts/keyboard_twist_teleop.cpp)
-ament_target_dependencies(keyboard_twist_teleop 
-  rclcpp 
-  geometry_msgs
+install(TARGETS
+  keyboard_twist_teleop
+  DESTINATION lib/${PROJECT_NAME}
 )
 
-install(TARGETS
-  Twist_command
-  keyboard_twist_teleop
+# Install esp_node.py as an executable Python node
+install(PROGRAMS scripts/esp_node.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
