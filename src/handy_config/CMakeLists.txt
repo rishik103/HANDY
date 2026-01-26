@@ -3,9 +3,11 @@ project(handy_config)
 
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(rclpy REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(control_msgs REQUIRED)
 find_package(moveit_ros_move_group REQUIRED)
 find_package(moveit_kinematics REQUIRED)
 find_package(moveit_planners REQUIRED)
@@ -41,22 +43,24 @@ install(TARGETS
   DESTINATION lib/${PROJECT_NAME}
 )
 
-ament_package()
-
-
 install(
   DIRECTORY launch 
   DESTINATION share/${PROJECT_NAME}
 )
-
 
 install(
   DIRECTORY scripts
   DESTINATION share/${PROJECT_NAME}
 )
 
+# Install Python node as executable
+install(
+  PROGRAMS scripts/esp_node.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 install(DIRECTORY config DESTINATION share/${PROJECT_NAME})
 install(FILES .setup_assistant DESTINATION share/${PROJECT_NAME})
 
-
+ament_package()
 

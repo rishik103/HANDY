@@ -20,6 +20,8 @@
 
   <!-- Build + Runtime dependencies for C++ node -->
   <depend>rclcpp</depend>
+  <depend>rclpy</depend>
+  <depend>control_msgs</depend>
   <depend>std_msgs</depend>
   <depend>sensor_msgs</depend>
   <depend>geometry_msgs</depend>

@@ -6,6 +6,7 @@ from launch.conditions import IfCondition, UnlessCondition
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 from moveit_configs_utils import MoveItConfigsBuilder
+from launch_param_builder import ParameterBuilder
 from launch_ros.parameter_descriptions import ParameterValue
 import os, pprint
 
@@ -48,7 +49,7 @@ def generate_launch_description():
         executable="rviz2",
         name="rviz2",
         output="log",
-        arguments=["-d", rviz_full_config],
+        arguments=["-d", rviz_full_config, "--ros-args", "--log-level", "warn"],
         # Use the full MoveIt config dict to avoid accidentally passing
         # tuple-like attributes (which can raise ParameterValue type errors).
         parameters=[moveit_config.to_dict()],
@@ -120,20 +121,49 @@ def generate_launch_description():
     get_package_share_directory("handy_config"),
     "config",
     "servo.yaml"
-)
+    )
+
+    servo_params = {
+        "moveit_servo": ParameterBuilder("moveit_servo").yaml(servo_yaml).to_dict()
+    }
+    # print(servo_params)
+
+    # Explicitly set servo parameters (ParameterBuilder may not extract values correctly)
+    servo_required_params = {
+        "moveit_servo": {
+            "move_group_name": "arm",
+            "command_out_topic": "/arm_controller/joint_trajectory",
+            "command_out_type": "trajectory_msgs/JointTrajectory",
+            "publish_joint_positions": True,
+            "publish_joint_velocities": True,
+            "publish_joint_accelerations": False,
+            "command_in_type": "speed_units",
+            "scale.linear": 0.05,
+            "scale.rotational": 0.2,
+            "scale.joint": 0.5,
+            "command_frame": "base_link",
+            "ee_frame_name": "Link6",
+        }
+    }
+
+    acceleration_filter_update_period = {"update_period": 0.01}
 
     servo_node = Node(
         package="moveit_servo",
         executable="servo_node",
-        name="servo_node",
+        name="moveit_servo",
         output="screen",
-        parameters=[servo_yaml,
+        parameters=[servo_params,
+                    servo_required_params,
+                    acceleration_filter_update_period,
                     moveit_config.robot_description,
                     moveit_config.robot_description_semantic,
-                    moveit_config.robot_description_kinematics
+                    moveit_config.robot_description_kinematics,
         ],
         arguments=["--ros-args", "--log-level", "info"],
     )
+
+
 
 
 
@@ -150,6 +180,6 @@ def generate_launch_description():
             move_group_node,
             rviz_node,
             mongodb_server_node,
-            # servo_node
+            servo_node
         ]
     )
