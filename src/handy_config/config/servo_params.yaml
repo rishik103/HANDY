@@ -13,7 +13,7 @@ scale:
   joint: 1.0
 
 ## Properties of outgoing commands
-publish_period: 0.002  # 1/Nominal publish rate [seconds]
+publish_period: 0.01 # 1/Nominal publish rate [seconds]
 low_latency_mode: true  # Set this to true to publish as soon as an incoming Twist command is received (publish_period is ignored)
 
 # What type of topic does your robot driver expect?
