@@ -87,7 +87,7 @@ Stephen Brawner (brawner@gmail.com)
   </link>
   <joint
     name="joint1"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0 0 0.16499999999999"
       rpy="1.5707963267949 0 -1.78820384774425" />
@@ -97,6 +97,7 @@ Stephen Brawner (brawner@gmail.com)
       link="Link1" />
     <axis
       xyz="0 1 0" />
+    <limit lower="-3.14159" upper="3.14159" effort="100" velocity="1.0" />
   </joint>
   <link
     name="Link2">
@@ -140,7 +141,7 @@ Stephen Brawner (brawner@gmail.com)
   </link>
   <joint
     name="joint2"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0 0.0980000000000102 0"
       rpy="0.0331729718675605 0 0" />
@@ -150,6 +151,7 @@ Stephen Brawner (brawner@gmail.com)
       link="Link2" />
     <axis
       xyz="1 0 0" />
+    <limit lower="-3.14159" upper="3.14159" effort="100" velocity="1.0" />
   </joint>
   <link
     name="Link3">
@@ -193,7 +195,7 @@ Stephen Brawner (brawner@gmail.com)
   </link>
   <joint
     name="joint3"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0 0.29155 0.000575582702538871"
       rpy="1.5707963267949 -1.32183280290932 1.5707963267949" />
@@ -203,6 +205,7 @@ Stephen Brawner (brawner@gmail.com)
       link="Link3" />
     <axis
       xyz="0 0 1" />
+    <limit lower="-3.14159" upper="3.14159" effort="100" velocity="1.0" />
   </joint>
   <link
     name="Link4">
@@ -246,7 +249,7 @@ Stephen Brawner (brawner@gmail.com)
   </link>
   <joint
     name="joint4"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0 -0.283 0.0937268862500288"
       rpy="1.5707963267949 0 -2.80898508991109" />
@@ -256,6 +259,7 @@ Stephen Brawner (brawner@gmail.com)
       link="Link4" />
     <axis
       xyz="0 1 0" />
+    <limit lower="-3.14159" upper="3.14159" effort="100" velocity="1.0" />
   </joint>
   <link
     name="Link5">
@@ -299,7 +303,7 @@ Stephen Brawner (brawner@gmail.com)
   </link>
   <joint
     name="joint5"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0 0.123067608467674 -0.0836321372682999"
       rpy="-1.5707963267949 0 -3.07906203524659" />
@@ -309,6 +313,7 @@ Stephen Brawner (brawner@gmail.com)
       link="Link5" />
     <axis
       xyz="0 1 0" />
+    <limit lower="-3.14159" upper="3.14159" effort="100" velocity="1.0" />
   </joint>
   <link
     name="Link6">
@@ -352,7 +357,7 @@ Stephen Brawner (brawner@gmail.com)
   </link>
   <joint
     name="joint6"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0 0.0921623574494037 -0.0859488892195215"
       rpy="-1.5707963267949 0 2.60725709980123" />
@@ -362,5 +367,6 @@ Stephen Brawner (brawner@gmail.com)
       link="Link6" />
     <axis
       xyz="0 1 0" />
+    <limit lower="-3.14159" upper="3.14159" effort="100" velocity="1.0" />
   </joint>
 </robot>

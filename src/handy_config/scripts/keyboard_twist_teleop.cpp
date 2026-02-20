@@ -15,8 +15,8 @@ public:
   {
     // ---------------- Parameters ----------------
     declare_parameter("planning_frame", "Link6");
-    declare_parameter("linear_vel", 0.02);   // m/s
-    declare_parameter("angular_vel", 0.1);   // rad/s
+    declare_parameter("linear_vel", 0.05);   // m/s
+    declare_parameter("angular_vel", 0.05);   // rad/s
 
     frame_id_ = get_parameter("planning_frame").as_string();
     lin_vel_  = get_parameter("linear_vel").as_double();

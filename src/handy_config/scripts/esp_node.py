@@ -40,19 +40,24 @@ class ESP32Bridge(Node):
 
         self.last_send_time = now
         cmd = msg.output.positions
+        vel = msg.output.velocities
         cmd_deg = [
-            max(0.0, min(180.0, math.degrees(x)))
-            for x in cmd
+            max(0.0, min(180.0, math.degrees(x))) for x in cmd
         ]
+        vel_deg = [math.degrees(v) for v in vel] if vel else []
 
-        line = ",".join(f"{x:.4f}" for x in cmd_deg) + "\n"
+        line = ",".join(f"{x:.4f}" for x in cmd_deg) + "|" +",".join(f"{x:.4f}" for x in vel_deg) + "\n"
 
-        try:
+        try: 
             self.esp_port.write(line.encode())
             self.esp_port.flush()
 
             self.get_logger().info(
-                f"Sent to ESP32: {line.strip()}",
+                f"Positions: {cmd_deg}",
+                throttle_duration_sec=1.0
+            )
+            self.get_logger().info(
+                f"Velocities: {vel_deg}",
                 throttle_duration_sec=1.0
             )
 

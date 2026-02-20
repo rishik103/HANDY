@@ -17,6 +17,9 @@ def generate_launch_description():
     )
     db_arg = DeclareLaunchArgument("db", default_value="False")
 
+    use_sim =DeclareLaunchArgument(
+        "use_sim_time", default_value="false", description="Use simulation (Gazebo) clock if true"
+    )
     moveit_config = (
         MoveItConfigsBuilder('handy', package_name='handy_config')
         .robot_description(
@@ -77,7 +80,7 @@ def generate_launch_description():
         executable="ros2_control_node",
         parameters=[
             {"robot_description": robot_description},
-            os.path.join(get_package_share_directory("handy_config"), "config", "ros2_controllers.yaml"),
+            os.path.join(get_package_share_directory("handy_config"), "config", "ros2_controllers.yaml")
         ],
     )
 
@@ -96,6 +99,14 @@ def generate_launch_description():
         output="screen",
     )
 
+    # arm_velocity_controller_spawner = Node(
+    #     package="controller_manager",
+    #     executable="spawner",
+    #     arguments=["arm_velocity_controller", "--controller-manager", "/controller_manager"],
+    #     output="screen",
+    # )
+
+   
     move_group_node = Node(
         package="moveit_ros_move_group",
         executable="move_group",
@@ -138,11 +149,19 @@ def generate_launch_description():
             "publish_joint_velocities": True,
             "publish_joint_accelerations": False,
             "command_in_type": "speed_units",
+            "servo_loop_rate": 200,
             "scale.linear": 0.05,
             "scale.rotational": 0.2,
             "scale.joint": 0.5,
             "command_frame": "base_link",
             "ee_frame_name": "Link6",
+            "lower_singularity_threshold": 40.0,
+            "hard_stop_singularity_threshold": 100.0,
+            "leaving_singularity_threshold_multiplier":1.5,
+            "singularity_step_scale":0.01,
+            "use_smoothing": False,
+            "is_primary_planning_scene_monitor": False
+
         }
     }
 
@@ -177,6 +196,7 @@ def generate_launch_description():
             ros2_control_node,
             joint_state_broadcaster_spawner,
             arm_controller_spawner,
+            # arm_velocity_controller_spawner,
             move_group_node,
             rviz_node,
             mongodb_server_node,

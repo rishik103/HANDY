@@ -6,6 +6,8 @@ controller_manager:
     arm_controller:
       type: joint_trajectory_controller/JointTrajectoryController
 
+    # arm_velocity_controller:
+    #   type: velocity_controllers/JointGroupVelocityController
 
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
@@ -21,7 +23,23 @@ arm_controller:
       - joint6
     command_interfaces:
       - position
+      - velocity
     state_interfaces:
       - position
       - velocity
     allow_nonzero_velocity_at_trajectory_end: true
+
+# arm_velocity_controller:
+#   ros__parameters:
+#     joints:
+#       - joint1
+#       - joint2
+#       - joint3  
+#       - joint4
+#       - joint5
+#       - joint6
+#     command_interfaces:
+#       - velocity
+#     state_interfaces:
+#       - position
+#       - velocity

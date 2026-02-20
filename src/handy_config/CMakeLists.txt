@@ -15,6 +15,7 @@ find_package(moveit_servo REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 find_package(moveit_core REQUIRED)
+find_package(moveit_msgs REQUIRED)
 
 add_executable(Twist_command scripts/Twist_command.cpp)
 ament_target_dependencies(Twist_command 
@@ -37,9 +38,17 @@ ament_target_dependencies(keyboard_twist_teleop
   geometry_msgs
 )
 
+add_executable(joint_jog_keyboard scripts/joint_jog_keyboard.cpp)
+ament_target_dependencies(joint_jog_keyboard 
+  rclcpp 
+  control_msgs
+  moveit_msgs
+)
+
 install(TARGETS
   Twist_command
   keyboard_twist_teleop
+  joint_jog_keyboard
   DESTINATION lib/${PROJECT_NAME}
 )
 
