@@ -59,9 +59,7 @@ def generate_launch_description():
         parameters=[robot_description],
     )
 
-    world_file = PathJoinSubstitution(
-        [handy_description_path, "worlds", LaunchConfiguration("world")]
-    )
+    world_file = LaunchConfiguration("world")
 
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(

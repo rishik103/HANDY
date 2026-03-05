@@ -22,7 +22,7 @@ class ESP32Bridge(Node):
             f"Connected to ESP32 on {self.port_} at {self.baud_rate_} baud.",
             throttle_duration_sec=1.0
         )
-        self.send_period = 0.5  
+        self.send_period = 0.1  
         self.last_send_time = self.get_clock().now()
 
         self.sub = self.create_subscription(

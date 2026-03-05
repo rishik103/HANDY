@@ -1,8 +1,7 @@
 <?xml version="1.0"?>
-<!-- filepath: /home/rishik/handy/src/handy_description/urdf/handy_description.gazebo.xacro -->
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <!-- Gazebo Colors -->
+  <!-- Gazebo Colors (link names match URDF: Link1, Link2, etc.) -->
   <gazebo reference="base_link">
     <visual>
       <material>
@@ -13,7 +12,7 @@
     </visual>
   </gazebo>
 
-  <gazebo reference="link1">
+  <gazebo reference="Link1">
     <visual>
       <material>
         <ambient>0.79 0.82 0.93 1</ambient>
@@ -23,7 +22,7 @@
     </visual>
   </gazebo>
 
-  <gazebo reference="link2">
+  <gazebo reference="Link2">
     <visual>
       <material>
         <ambient>0.79 0.82 0.93 1</ambient>
@@ -33,7 +32,7 @@
     </visual>
   </gazebo>
 
-  <gazebo reference="link3">
+  <gazebo reference="Link3">
     <visual>
       <material>
         <ambient>0.79 0.82 0.93 1</ambient>
@@ -43,7 +42,7 @@
     </visual>
   </gazebo>
 
-  <gazebo reference="link4">
+  <gazebo reference="Link4">
     <visual>
       <material>
         <ambient>0.79 0.82 0.93 1</ambient>
@@ -53,7 +52,7 @@
     </visual>
   </gazebo>
 
-  <gazebo reference="link5">
+  <gazebo reference="Link5">
     <visual>
       <material>
         <ambient>0.79 0.82 0.93 1</ambient>
@@ -63,31 +62,11 @@
     </visual>
   </gazebo>
 
-  <gazebo reference="link6">
+  <gazebo reference="Link6">
     <visual>
       <material>
         <ambient>0.79 0.82 0.93 1</ambient>
         <diffuse>0.79 0.82 0.93 1</diffuse>
-        <specular>0.1 0.1 0.1 1</specular>
-      </material>
-    </visual>
-  </gazebo>
-
-  <gazebo reference="finger1">
-    <visual>
-      <material>
-        <ambient>0.3 0.3 0.3 1</ambient>
-        <diffuse>0.3 0.3 0.3 1</diffuse>
-        <specular>0.1 0.1 0.1 1</specular>
-      </material>
-    </visual>
-  </gazebo>
-
-  <gazebo reference="finger2">
-    <visual>
-      <material>
-        <ambient>0.3 0.3 0.3 1</ambient>
-        <diffuse>0.3 0.3 0.3 1</diffuse>
         <specular>0.1 0.1 0.1 1</specular>
       </material>
     </visual>
@@ -101,15 +80,6 @@
         <remapping>/controller_manager:=/controller_manager</remapping>
       </ros>
     </plugin>
-    <plugin name="gz_ros2_control" filename="libgz_ros2_control.so">
-    <ros>
-      <namespace>/</namespace>
-    </ros>
-    <parameters>
-      $(find handy_config)/config/ros2_controllers.yaml
-      $(find handy_config)/config/initial_positions.yaml
-    </parameters>
-  </plugin>
   </gazebo>
 
 </robot>
