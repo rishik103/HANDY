@@ -1,26 +1,41 @@
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, OpaqueFunction, RegisterEventHandler
-from launch.event_handlers import OnProcessExit, OnProcessStart
-from launch.substitutions import LaunchConfiguration, Command
+from launch.actions import DeclareLaunchArgument
+from launch.substitutions import LaunchConfiguration, Command, FindExecutable
 from launch.conditions import IfCondition, UnlessCondition
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 from moveit_configs_utils import MoveItConfigsBuilder
+from launch_param_builder import ParameterBuilder
 from launch_ros.parameter_descriptions import ParameterValue
-import os, pprint
+import os
 
 def generate_launch_description():
-    tutorial_arg = DeclareLaunchArgument("rviz_tutorial", default_value="False")
-    ros2_control_hardware_type = DeclareLaunchArgument(
-        "ros2_control_hardware_type", default_value="mock_components"
+    tutorial_arg = DeclareLaunchArgument("rviz_tutorial", default_value="false")
+    use_sim_arg = DeclareLaunchArgument(
+        "use_sim",
+        default_value="false",
+        description="Use Gazebo-backed ros2_control interface",
     )
-    db_arg = DeclareLaunchArgument("db", default_value="False")
+    use_sim_time_arg = DeclareLaunchArgument(
+        "use_sim_time",
+        default_value="false",
+        description="Use simulation clock when true",
+    )
+    start_rsp_arg = DeclareLaunchArgument(
+        "start_robot_state_publisher",
+        default_value="true",
+        description="Start robot_state_publisher from this launch",
+    )
+    db_arg = DeclareLaunchArgument("db", default_value="false")
+
+    use_sim = LaunchConfiguration("use_sim")
+    use_sim_time = LaunchConfiguration("use_sim_time")
 
     moveit_config = (
         MoveItConfigsBuilder('handy', package_name='handy_config')
         .robot_description(
             file_path="config/handy_description.urdf.xacro",
-            mappings={"ros2_control_hardware_type": LaunchConfiguration("ros2_control_hardware_type")}
+            mappings={"use_sim": use_sim}
         )
         .robot_description_semantic(
             file_path="config/handy_description.srdf"
@@ -32,13 +47,21 @@ def generate_launch_description():
 
 
     robot_description = ParameterValue(
-        Command(["xacro ", os.path.join(get_package_share_directory('handy_config'), "config", "handy_description.urdf.xacro")]),
+        Command(
+            [
+                FindExecutable(name="xacro"),
+                " ",
+                os.path.join(get_package_share_directory("handy_config"), "config", "handy_description.urdf.xacro"),
+                " ",
+                "use_sim:=",
+                use_sim,
+            ]
+        ),
         value_type=str
     )
 
     rviz_base = os.path.join(get_package_share_directory("handy_config"), "launch")
     rviz_full_config = os.path.join(rviz_base, "moveit.rviz")
-    rviz_empty_config = os.path.join(rviz_base, "moveit_empty.rviz")
     tutorial_mode = LaunchConfiguration("rviz_tutorial")
 
     
@@ -48,10 +71,10 @@ def generate_launch_description():
         executable="rviz2",
         name="rviz2",
         output="log",
-        arguments=["-d", rviz_full_config],
+        arguments=["-d", rviz_full_config, "--ros-args", "--log-level", "warn"],
         # Use the full MoveIt config dict to avoid accidentally passing
         # tuple-like attributes (which can raise ParameterValue type errors).
-        parameters=[moveit_config.to_dict()],
+        parameters=[moveit_config.to_dict(), {"use_sim_time": use_sim_time}],
         condition=UnlessCondition(tutorial_mode),
     )
 
@@ -68,7 +91,8 @@ def generate_launch_description():
         executable="robot_state_publisher",
         name="robot_state_publisher",
         output="both",
-        parameters=[moveit_config.to_dict()],
+        parameters=[moveit_config.to_dict(), {"use_sim_time": use_sim_time}],
+        condition=IfCondition(LaunchConfiguration("start_robot_state_publisher")),
     )
 
     ros2_control_node = Node(
@@ -76,22 +100,36 @@ def generate_launch_description():
         executable="ros2_control_node",
         parameters=[
             {"robot_description": robot_description},
+            {"use_sim_time": use_sim_time},
             os.path.join(get_package_share_directory("handy_config"), "config", "ros2_controllers.yaml"),
         ],
+        condition=UnlessCondition(use_sim),
     )
 
      # Controller spawners - load joint_state_broadcaster first, then arm_controller
     joint_state_broadcaster_spawner = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
+        arguments=[
+            "joint_state_broadcaster",
+            "--controller-manager",
+            "/controller_manager",
+            "--controller-manager-timeout",
+            "120",
+        ],
         output="screen",
     )
 
     arm_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["arm_controller", "--controller-manager", "/controller_manager"],
+        arguments=[
+            "arm_controller",
+            "--controller-manager",
+            "/controller_manager",
+            "--controller-manager-timeout",
+            "120",
+        ],
         output="screen",
     )
 
@@ -99,7 +137,7 @@ def generate_launch_description():
         package="moveit_ros_move_group",
         executable="move_group",
         output="screen",
-        parameters=[moveit_config.to_dict()],
+        parameters=[moveit_config.to_dict(), {"use_sim_time": use_sim_time}],
         arguments=["--ros-args", "--log-level", "info"],
     )
 
@@ -115,13 +153,62 @@ def generate_launch_description():
         condition=IfCondition(LaunchConfiguration("db")),
     )
 
+    servo_yaml = os.path.join(
+    get_package_share_directory("handy_config"),
+    "config",
+    "servo.yaml"
+    )
+
+    servo_params = {
+        "moveit_servo": ParameterBuilder("moveit_servo").yaml(servo_yaml).to_dict()
+    }
+    # print(servo_params)
+
+    # Explicitly set servo parameters (ParameterBuilder may not extract values correctly)
+    servo_required_params = {
+        "moveit_servo": {
+            "move_group_name": "arm",
+            "command_out_topic": "/arm_controller/joint_trajectory",
+            "command_out_type": "trajectory_msgs/JointTrajectory",
+            "publish_joint_positions": True,
+            "publish_joint_velocities": True,
+            "publish_joint_accelerations": False,
+            "command_in_type": "speed_units",
+            "scale.linear": 0.05,
+            "scale.rotational": 0.2,
+            "scale.joint": 0.5,
+            "command_frame": "base_link",
+            "ee_frame_name": "Link6",
+        }
+    }
+
+    acceleration_filter_update_period = {"update_period": 0.01}
+
+    servo_node = Node(
+        package="moveit_servo",
+        executable="servo_node",
+        name="moveit_servo",
+        output="screen",
+        parameters=[servo_params,
+                    servo_required_params,
+                    acceleration_filter_update_period,
+                    {"use_sim_time": use_sim_time},
+                    moveit_config.robot_description,
+                    moveit_config.robot_description_semantic,
+                    moveit_config.robot_description_kinematics,
+        ],
+        arguments=["--ros-args", "--log-level", "info"],
+    )
+
 
 
     return LaunchDescription(
         [
             tutorial_arg,
             db_arg,
-            ros2_control_hardware_type,
+            use_sim_arg,
+            use_sim_time_arg,
+            start_rsp_arg,
             static_tf_node,
             robot_state_publisher,
             ros2_control_node,
@@ -130,5 +217,6 @@ def generate_launch_description():
             move_group_node,
             rviz_node,
             mongodb_server_node,
+            servo_node,
         ]
     )
